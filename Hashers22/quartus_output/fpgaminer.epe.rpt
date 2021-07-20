@@ -1,0 +1,210 @@
+PowerPlay Early Power Estimator File Generator report for fpgaminer
+Tue Jul 13 18:21:28 2021
+Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Parallel Compilation
+  3. PowerPlay Early Power Estimator File Generator Summary
+  4. PowerPlay Early Power Estimator File Generator Settings
+  5. Indeterminate Toggle Rates
+  6. PowerPlay Early Power Estimator File Generator Generated Files
+  7. Confidence Metric Details
+  8. Signal Activities
+  9. PowerPlay Early Power Estimator File Generator Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2016  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Intel and sold by Intel or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 4           ;
+; Maximum allowed            ; 2           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 2           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processor 2            ;   0.1%      ;
++----------------------------+-------------+
+
+
++----------------------------------------------------------------------------------------------------------+
+; PowerPlay Early Power Estimator File Generator Summary                                                   ;
++-------------------------------------------------------+--------------------------------------------------+
+; PowerPlay Early Power Estimator File Generator Status ; Successful - Tue Jul 13 18:21:28 2021            ;
+; Quartus Prime Version                                 ; 16.1.0 Build 196 10/24/2016 SJ Lite Edition      ;
+; Revision Name                                         ; fpgaminer                                        ;
+; Top-level Entity Name                                 ; fpgaminer_top                                    ;
+; Family                                                ; Cyclone V                                        ;
+; Device                                                ; 5CEBA4F23C7                                      ;
+; Power Estimation Confidence                           ; Low: user provided insufficient toggle rate data ;
++-------------------------------------------------------+--------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; PowerPlay Early Power Estimator File Generator Settings                                                                                                                                            ;
++----------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+---------------+
+; Option                                                                     ; Setting                                                                                               ; Default Value ;
++----------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+---------------+
+; Use smart compilation                                                      ; Off                                                                                                   ; Off           ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                                                                                                    ; On            ;
+; Enable compact report table                                                ; Off                                                                                                   ; Off           ;
+; Default Power Toggle Rate                                                  ; 65.0%                                                                                                 ; 12.5%         ;
+; Use vectorless estimation                                                  ; Off                                                                                                   ; On            ;
+; Output Signal Activity File name                                           ; C:/Users/Felipe Valencia/Desktop/Estudos/Doutorado/Artigos/SBSeg2021/SF/FPGAMiner/Hashers22/teste.saf ;               ;
+; Preset Cooling Solution                                                    ; No Heat Sink With Still Air                                                                           ;               ;
+; Board thermal model                                                        ; None (CONSERVATIVE)                                                                                   ;               ;
+; Default Power Input I/O Toggle Rate                                        ; 12.5%                                                                                                 ; 12.5%         ;
+; Use Input Files                                                            ; Off                                                                                                   ; Off           ;
+; Filter Glitches in VCD File Reader                                         ; On                                                                                                    ; On            ;
+; Power Analyzer Report Signal Activity                                      ; Off                                                                                                   ; Off           ;
+; Power Analyzer Report Power Dissipation                                    ; Off                                                                                                   ; Off           ;
+; Device Power Characteristics                                               ; TYPICAL                                                                                               ; TYPICAL       ;
+; Automatically Compute Junction Temperature                                 ; On                                                                                                    ; On            ;
+; Specified Junction Temperature                                             ; 25                                                                                                    ; 25            ;
+; Ambient Temperature                                                        ; 25                                                                                                    ; 25            ;
+; Use Custom Cooling Solution                                                ; Off                                                                                                   ; Off           ;
+; Board Temperature                                                          ; 25                                                                                                    ; 25            ;
+; Enable HPS                                                                 ; Off                                                                                                   ; Off           ;
+; Processor Frequency                                                        ; 0.0                                                                                                   ; 0.0           ;
++----------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+---------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Indeterminate Toggle Rates                                                                                                                          ;
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------+
+; Node                                                                                                                  ; Reason                      ;
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------+
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_CNTNEN          ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_TCLK            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI0            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI1            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI2            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI3            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI4            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI5            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI6            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~FRACTIONAL_PLL_O_MHI7            ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~PLL_REFCLK_SELECT_O_EXTSWITCHBUF ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~PLL_RECONFIG_O_SHIFT             ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~PLL_RECONFIG_O_SHIFTENM          ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~PLL_RECONFIG_O_UP                ; No valid clock domain found ;
+; main_pll:pll_blk|altpll:altpll_component|main_pll_altpll:auto_generated|generic_pll1~PLL_RECONFIG_O_SHIFTEN0          ; No valid clock domain found ;
++-----------------------------------------------------------------------------------------------------------------------+-----------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; PowerPlay Early Power Estimator File Generator Generated Files                                                                                                               ;
++----------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+
+; Description                                                          ; Filename                                                                                              ;
++----------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+
+; Output Signal Activity File -- activities used during power analysis ; C:/Users/Felipe Valencia/Desktop/Estudos/Doutorado/Artigos/SBSeg2021/SF/FPGAMiner/Hashers22/teste.saf ;
+; Design summary for PowerPlay Early Power Estimator spreadsheet       ; fpgaminer_early_pwr.csv                                                                               ;
++----------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Confidence Metric Details                                                                                                                              ;
++----------------------------------------------------------------------------------------+----------------+------------+----------------+----------------+
+; Data Source                                                                            ; Total          ; Pin        ; Registered     ; Combinational  ;
++----------------------------------------------------------------------------------------+----------------+------------+----------------+----------------+
+; Simulation (from file)                                                                 ;                ;            ;                ;                ;
+;     -- Number of signals with Toggle Rate from Simulation                              ; 0 (0.0%)       ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)       ;
+;     -- Number of signals with Static Probability from Simulation                       ; 0 (0.0%)       ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)       ;
+;                                                                                        ;                ;            ;                ;                ;
+; Node, entity or clock assignment                                                       ;                ;            ;                ;                ;
+;     -- Number of signals with Toggle Rate from Node, entity or clock assignment        ; 6 (0.0%)       ; 2 (13.3%)  ; 0 (0.0%)       ; 4 (0.0%)       ;
+;     -- Number of signals with Static Probability from Node, entity or clock assignment ; 6 (0.0%)       ; 2 (13.3%)  ; 0 (0.0%)       ; 4 (0.0%)       ;
+;                                                                                        ;                ;            ;                ;                ;
+; Vectorless estimation                                                                  ;                ;            ;                ;                ;
+;     -- Number of signals with Toggle Rate from Vectorless estimation                   ; 0 (0.0%)       ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)       ;
+;     -- Number of signals with Static Probability from Vectorless estimation            ; 0 (0.0%)       ; 0 (0.0%)   ; 0 (0.0%)       ; 0 (0.0%)       ;
+;                                                                                        ;                ;            ;                ;                ;
+; Default assignment                                                                     ;                ;            ;                ;                ;
+;     -- Number of signals with Toggle Rate from Default assignment                      ; 33379 (99.9%)  ; 13 (86.7%) ; 14004 (100.0%) ; 19362 (99.9%)  ;
+;     -- Number of signals with Static Probability from Default assignment               ; 33394 (100.0%) ; 13 (86.7%) ; 14004 (100.0%) ; 19377 (100.0%) ;
+;                                                                                        ;                ;            ;                ;                ;
+; Assumed 0                                                                              ;                ;            ;                ;                ;
+;     -- Number of signals with Toggle Rate assumed 0                                    ; 15 (0.0%)      ; 0 (0.0%)   ; 0 (0.0%)       ; 15 (0.1%)      ;
++----------------------------------------------------------------------------------------+----------------+------------+----------------+----------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Activities                                                                                                                           ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+; Signal ; Type ; Toggle Rate (millions of transitions / sec) ; Toggle Rate Data Source ; Static Probability ; Static Probability Data Source ;
++--------+------+---------------------------------------------+-------------------------+--------------------+--------------------------------+
+(1) The "Signal Activity" Table has been hidden. To show this table, please select the "Write signal activities to report file" option under "PowerPlay Power Analyzer Settings".
+
+
++---------------------------------------------------------+
+; PowerPlay Early Power Estimator File Generator Messages ;
++---------------------------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime PowerPlay Early Power Estimator File Generator
+    Info: Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+    Info: Processing started: Tue Jul 13 18:20:40 2021
+Info: Command: quartus_pow --read_settings_files=on --write_settings_files=off fpgaminer -c fpgaminer --estimate_power=off --output_epe=fpgaminer_early_pwr.csv
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (21077): Low junction temperature is 0 degrees C
+Info (21077): High junction temperature is 85 degrees C
+Info (332164): Evaluating HDL-embedded SDC commands
+    Info (332165): Entity sld_hub
+        Info (332166): create_clock -name altera_reserved_tck [get_ports {altera_reserved_tck}] -period 30MHz   
+        Info (332166): if { [string equal quartus_fit $::TimeQuestInfo(nameofexecutable)] } { set_max_delay -to [get_ports { altera_reserved_tdo } ] 0 }
+        Info (332166): set_clock_groups -asynchronous -group {altera_reserved_tck}
+Info (332104): Reading SDC File: 'fpgaminer.sdc'
+Info (332110): Deriving PLL clocks
+    Info (332110): create_generated_clock -source {pll_blk|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|refclkin} -divide_by 5 -multiply_by 32 -duty_cycle 50.00 -name {pll_blk|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]} {pll_blk|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL|vcoph[0]}
+    Info (332110): create_generated_clock -source {pll_blk|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|vco0ph[0]} -divide_by 8 -duty_cycle 50.00 -name {pll_blk|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk} {pll_blk|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER|divclk}
+Info (332151): Clock uncertainty is not calculated until you update the timing netlist.
+Info (332097): The following timing edges are non-unate.  TimeQuest will assume pos-unate behavior for these edges in the clock network.
+    Info (332098): Cell: pll_blk|altpll_component|auto_generated|generic_pll1~FRACTIONAL_PLL  from: refclkin  to: fbclk
+    Info (332098): Cell: pll_blk|altpll_component|auto_generated|generic_pll1~PLL_OUTPUT_COUNTER  from: vco0ph[0]  to: divclk
+    Info (332098): Cell: pll_blk|altpll_component|auto_generated|generic_pll1~PLL_REFCLK_SELECT  from: clkin[0]  to: clkout
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in TimeQuest to see clock uncertainties.
+Warning (222014): Relative toggle rates were calculated using fastest clock for nodes in multiple clock domains
+    Warning (222015): Using fastest of multiple clock domains found for node "virtual_wire:nonce_vw_blk|altsource_probe:altsource_probe_component|altsource_probe_body:altsource_probe_body_inst|altsource_probe_impl:\wider_probe_gen:wider_probe_inst|shift_reg~1"
+    Warning (222015): Using fastest of multiple clock domains found for node "virtual_wire:nonce_vw_blk|altsource_probe:altsource_probe_component|altsource_probe_body:altsource_probe_body_inst|altsource_probe_impl:\wider_probe_gen:wider_probe_inst|shift_reg~2"
+    Warning (222015): Using fastest of multiple clock domains found for node "virtual_wire:golden_nonce_vw_blk|altsource_probe:altsource_probe_component|altsource_probe_body:altsource_probe_body_inst|altsource_probe_impl:\wider_probe_gen:wider_probe_inst|shift_reg~1"
+    Warning (222015): Using fastest of multiple clock domains found for node "virtual_wire:golden_nonce_vw_blk|altsource_probe:altsource_probe_component|altsource_probe_body:altsource_probe_body_inst|altsource_probe_impl:\wider_probe_gen:wider_probe_inst|shift_reg~2"
+Warning (222013): Relative toggle rates could not be calculated because no clock domain could be identified for some nodes
+Info (221012): Created Signal Activity File C:/Users/Felipe Valencia/Desktop/Estudos/Doutorado/Artigos/SBSeg2021/SF/FPGAMiner/Hashers22/teste.saf
+Info (218000): Using Advanced I/O Power to simulate I/O buffers with the specified board trace model
+Info (214002): Created PowerPlay Early Power Estimation file "fpgaminer_early_pwr.csv"
+Info (215029): No power estimate will be produced.
+Info (215049): Average toggle rate for this design is 25.457 millions of transitions / sec
+Info: Quartus Prime PowerPlay Early Power Estimator File Generator was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 5219 megabytes
+    Info: Processing ended: Tue Jul 13 18:21:29 2021
+    Info: Elapsed time: 00:00:49
+    Info: Total CPU time (on all processors): 00:00:25
+
+

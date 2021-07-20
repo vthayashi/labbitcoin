@@ -1,0 +1,291 @@
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href='cloud-3-64.ico' type="image/icon">
+<style>
+	*{font-size:18px;background:black;color:silver;}
+	a{text-decoration:none;color:blue;}
+	button{margin:2px 0 2px 0;min-width:130px;max-width:130px;cursor:pointer;border:solid 1px #444444;border-radius:6px;padding:4px 0 4px 0; background:none; overflow:hidden; white-space:nowrap;}
+	label{white-space: nowrap;background:none;}
+</style>
+
+<script>
+
+var mqtt_broker=["broker_address","broker.mqtt-dashboard.com","broker.emqx.io","broker_address"];
+var mqtt_user=["","","","user"];
+var mqtt_pass=["","","","pass"];
+var mqtt_port=[8000,8000,8083,8000];
+var mqtt_group="facility/labead/labdig/a4";
+//sa=location.pathname.split("/"); sa=sa[sa.length-1]; sa=sa.replace(".htm","");
+//mqtt_group=sa;
+document.title=mqtt_group;
+
+console.log("mqtt_broker: "+mqtt_broker);
+console.log("mqtt_group: "+mqtt_group);
+
+var localStorage_id=mqtt_group;
+console.log("localStorage_id: "+localStorage_id);
+
+</script>
+</head>
+<body onload="iniciar();margin:0;" onscroll="painel.style.visibility='hidden';">
+
+<div style="width:100%;height:32px;text-align:center;position:fixed;left:0;top:0;z-index:10;background:#222222;padding-top:4px;" onclick="if(painel.style.visibility=='visible'){ painel.style.visibility='hidden'; }else{ painel.style.visibility='visible'; }">
+	<div id="div_mqtt_group" style="background:none;margin-top:4px;">&nbsp;</div>
+</div>
+
+<div id="div_total_power" style="position:fixed;left:20px;top:8px;z-index:11;color:red;"> 0 </div>
+
+<div align="center" style="height:90%;width:100%;position:absolute;left:0;top:40px;" id="div01" onmousedown="painel.style.visibility='hidden';"></div>
+
+<div id="painel" align="center" style="padding:4px 0 8px 0;width:100%;position:fixed;left:0;top:36px;background:#333333;visibility:visible;">
+	<style>.st_bro{font-size:14px;width:200px;background:#333333;text-align:center;}</style>
+	<table style="background:#333333;">
+		<tr><td id="mqtt1_status" class="st_bro">MQTT1</td></tr><tr><td id="mqtt2_status" class="st_bro">MQTT2</td></tr>
+		<tr><td id="mqtt3_status" class="st_bro">MQTT3</td></tr><tr><td id="mqtt4_status" class="st_bro">MQTT4</td></tr>
+	</table>
+	<div style="background:none;">
+		<button style="font-size:16px;height:32px;" onclick="localStorage.removeItem(localStorage_id+'_data');location.reload();">Apagar</button>
+		<button style="font-size:16px;height:32px;" onclick="location.reload();">Ordenar</button>
+	</div>
+	<div style="background:none;margin-top:6px;">
+		<label><input type="checkbox" id="cb_localIP" onchange="localStorage.setItem('cb_localIP',this.checked);send();">localIP</label>
+		<label><input type="checkbox" id="cb_mqtt_ID" onchange="localStorage.setItem('cb_mqtt_ID',this.checked);send();">mqtt_ID</label>
+		<label><input type="checkbox" id="cb_broker" onchange="localStorage.setItem('cb_broker',this.checked);send();">broker</label>
+		<label><input type="checkbox" id="cb_Versao" onchange="localStorage.setItem('cb_Versao',this.checked);send();">Versao</label>
+		<label><input type="checkbox" id="cb_RSSI" onchange="localStorage.setItem('cb_RSSI',this.checked);send();">RSSI</label>
+		<label><input type="checkbox" id="cb_ResetReason" onchange="localStorage.setItem('cb_ResetReason',this.checked);send();">ResetReason</label>
+		<label style="color:#FF00FF;"><input type="checkbox" id="cb_millis" onchange="localStorage.setItem('cb_millis',this.checked);send();">millis</label>
+		<label><input type="checkbox" id="cb_max_loop_wdt" onchange="localStorage.setItem('cb_max_loop_wdt',this.checked);send();">max_loop_wdt</label>
+		<label><input type="checkbox" id="cb_minFreeHeap" onchange="localStorage.setItem('cb_minFreeHeap',this.checked);send();">minFreeHeap</label>
+		<label><input type="checkbox" checked id="cb_KWh" onchange="localStorage.setItem('cb_KWh',this.checked);send();">KWh</label>
+		<label style="color:cyan;"><input type="checkbox" checked id="cb_tem" onchange="localStorage.setItem('cb_tem',this.checked);send();">tem</label>
+		<label><input type="checkbox" checked id="cb_pwr" onchange="localStorage.setItem(this.id,this.checked);send();">Power</label>
+		<script>
+		function send(){
+			message=new Paho.MQTT.Message(req);	message.destinationName=mqtt_group+"/sub";
+			if(mqtt_connected[0]) mqtt1_client.send(message);
+			if(mqtt_connected[1]) mqtt2_client.send(message);
+			if(mqtt_connected[2]) mqtt3_client.send(message);
+			if(mqtt_connected[3]) mqtt4_client.send(message);
+		}
+		</script>
+	</div>
+	<hr style="width:90%;border:none;height:1px;">
+	<label><input type="checkbox" id="cb_zoom" onchange="localStorage.setItem(this.id,this.checked);if(this.checked){document.body.style.zoom='150%';}else{document.body.style.zoom='100%';}">Zoom</label>
+</div>
+
+<script>
+
+var req="&fields=DeviceID,MQTT_ID,localIP,MQTT_BROKER,MQTT_PORT,Versao,ws_24,ws_30,millis,ResetReason,wifi_rssi,tem,"+parseInt(Math.random()*10000);
+req+=",max_loop_wdt_cnt,minFreeHeap,power";
+
+var data=[], data_index=[];
+
+function iniciar(){
+	div_mqtt_group.innerHTML=mqtt_group;
+	if(localStorage.getItem('cb_localIP')){ 		cb_localIP.checked=(localStorage.getItem('cb_localIP')=="true"); }
+	if(localStorage.getItem('cb_mqtt_ID')){ 		cb_mqtt_ID.checked=(localStorage.getItem('cb_mqtt_ID')=="true"); }
+	if(localStorage.getItem('cb_Versao')){ 			cb_Versao.checked=(localStorage.getItem('cb_Versao')=="true"); }
+	if(localStorage.getItem('cb_RSSI')){ 			cb_RSSI.checked=(localStorage.getItem('cb_RSSI')=="true"); }
+	if(localStorage.getItem('cb_ResetReason')){ 	cb_ResetReason.checked=(localStorage.getItem('cb_ResetReason')=="true"); }
+	if(localStorage.getItem('cb_KWh')){ 			cb_KWh.checked=(localStorage.getItem('cb_KWh')=="true"); }
+	if(localStorage.getItem('cb_broker')){ 			cb_broker.checked=(localStorage.getItem('cb_broker')=="true"); }
+	if(localStorage.getItem('cb_millis')){ 			cb_millis.checked=(localStorage.getItem('cb_millis')=="true"); }
+	if(localStorage.getItem('cb_max_loop_wdt')){ 	cb_max_loop_wdt.checked=(localStorage.getItem('cb_max_loop_wdt')=="true"); }
+	if(localStorage.getItem('cb_minFreeHeap')){ 	cb_minFreeHeap.checked=(localStorage.getItem('cb_minFreeHeap')=="true"); }
+	if(localStorage.getItem('cb_tem')){ 			cb_tem.checked=(localStorage.getItem('cb_tem')=="true"); }
+	if(localStorage.getItem('cb_pwr')){ 			cb_pwr.checked=(localStorage.getItem('cb_pwr')=="true"); }
+	if(localStorage.getItem('cb_zoom')){			cb_zoom.checked=(localStorage.getItem('cb_zoom')=="true"); if(cb_zoom.checked){document.body.style.zoom='150%';}else{document.body.style.zoom='100%';} }
+	//
+	if(localStorage.getItem(localStorage_id+'_data')){
+		sa=localStorage.getItem(localStorage_id+'_data'); sa=sa.split('},{').join('},,{'); data=sa.split(',,'); data.sort();
+		pg='';
+		for(i in data){
+			myObj=JSON.parse(data[i]);
+			pg+='<a id="'+myObj.MQTT_ID.replace('/','_')+'" href="Status.htm?broker='+myObj.MQTT_BROKER+'&subID='+myObj.MQTT_ID+'"><button>';
+			pg+='<div style="font-size:18px;margin:0 2px 0 2px;">'+myObj.DeviceID+'</div>';
+			if(cb_localIP.checked) pg+='<div style="font-size:14px;">&nbsp;</div>';
+			if(cb_RSSI.checked) pg+='<div style="height:14px;"></div>';
+			if(cb_ResetReason.checked) pg+='<div style="font-size:11px;">&nbsp;</div>';
+			if(cb_millis.checked) pg+='<div style="font-size:15px;">&nbsp;</div>';
+			if(cb_Versao.checked) pg+='<div style="font-size:11px;">&nbsp;</div>';
+			if(cb_max_loop_wdt.checked) pg+='<div style="font-size:14px;">&nbsp;</div>';
+			if(cb_minFreeHeap.checked) pg+='<div style="font-size:14px;">&nbsp;</div>';
+			if(cb_KWh.checked) pg+='<div style="font-size:16px;">&nbsp;</div>';
+			if(cb_tem.checked) pg+='<div style="font-size:18px;">&nbsp;</div>';
+			if(cb_pwr.checked) pg+='<div style="font-size:18px;">&nbsp;</div>';
+			if(cb_mqtt_ID.checked) pg+='<div style="font-size:14px;">'+myObj.MQTT_ID+'</div>';
+			if(cb_broker.checked) pg+='<div style="font-size:9px;">&nbsp;</div>';
+			pg+='</button></a> ';
+		}
+		div01.innerHTML=pg;
+	}
+	mqtt_init();
+	setTimeout(function(){painel.style.visibility='hidden';},1000);
+}
+
+var total_power = 0;
+
+function onMessageArrived(broker,name,text){ console.log(text);
+	if(name== mqtt_group+"/pub"  && text.startsWith(req) ){
+		js=text; if(js.indexOf(" {")>0) js=js.substring(js.indexOf(" {")+1);
+		myObj=JSON.parse(js);
+		if(typeof myObj.MQTT_ID!='undefined'){
+			data_index=-1; for(i in data){ if(data[i].indexOf('"MQTT_ID":"'+myObj.MQTT_ID+'"')>=0){ data_index=i; } }
+			sa='{"DeviceID":"'+myObj.DeviceID+'","MQTT_ID":"'+myObj.MQTT_ID+'","MQTT_BROKER":"'+mqtt_broker[broker-1]+'"}';
+			pg="";
+			if(data_index<0){ pg+='<a id="'+myObj.MQTT_ID.replace('/','_')+'" href="http://'+myObj.localIP+'">'; }
+			pg+='<button><div style="color:#0080FF;font-size:18px;margin:0 2px 0 2px;">'+myObj.DeviceID+'</div>';
+			if(cb_localIP.checked) pg+='<div style="font-size:14px;">'+myObj.localIP+'</div>';
+			if(cb_RSSI.checked){
+				pg+="<div align='center' style='margin:2px 0 2px 0;'><div style='width:100px;text-align:left;border:solid 1px gray;border-radius:10px;'>";
+				ia=100+myObj.wifi_rssi;
+				pg+="<div style='width:"+ia+"px;background:#0080E0;height:8px;border-radius:8px;'></div></div></div>";
+			}
+			if(cb_ResetReason.checked) pg+='<div style="font-size:11px;">'+myObj.ResetReason+'</div>';
+			if(cb_millis.checked){
+				d=new Date(myObj.millis); msa=d.toISOString();
+				msa=msa.substring(0,msa.indexOf(".")); msa=msa.replace("T","-"); msa=msa.split("-"); msa[3]=msa[3].split(":");
+				sb=parseInt(msa[2])-1; if(sb>00) sb+="d"; else sb="";
+				sb+=msa[3][0]+":"+msa[3][1];
+				pg+='<div style="font-size:15px;color:#FF00FF;">'+sb+'</div>'; 
+			}
+			if(cb_Versao.checked) pg+='<div style="font-size:11px;">'+myObj.Versao+'.ino</div>';
+			if(cb_max_loop_wdt.checked) pg+='<div style="font-size:14px;">loop '+(Number(myObj.max_loop_wdt_cnt*50)/1000).toFixed(1)+' seg</div>';
+			if(cb_minFreeHeap.checked) pg+='<div style="font-size:14px;">FreeHeap: '+myObj.minFreeHeap+'</div>';
+			if(cb_KWh.checked){
+				div_kwh="&nbsp;"; cor="yellow"; 
+				if(typeof myObj.ws_24!='undefined' && typeof myObj.ws_30!='undefined'){
+					kwh24=myObj.ws_24/3600/1000*30; kwh30=myObj.ws_30/3600/1000;
+					div_kwh=kwh24.toFixed((kwh24<10)?1:0)+" / "+kwh30.toFixed((kwh30<10)?1:0)+" kwh";
+					if(kwh24>(kwh30*1.1)){ cor="red"; } if(kwh24<(kwh30*0.9)){ cor="lime"; }
+				}
+				pg+="<div style='font-size:16px;color:"+cor+";'>"+div_kwh+"</div>";
+			}
+			if(typeof myObj.power!='undefined'){
+				total_power += myObj.power[0];
+				div_total_power.innerHTML = total_power + "w";
+			}
+			if(cb_pwr.checked){	pg+='<div style="font-size:18px;color:silver;">';
+				if(typeof myObj.power!='undefined'){
+					ia=0; for(i in myObj.power) ia+=myObj.power[i];
+					pg+=ia.toFixed(1); pg+="w";
+				}else{pg+="&nbsp";}
+				pg+='</div>';
+			}
+			if(cb_tem.checked){
+				pg+='<div style="font-size:18px;color:cyan;">';
+				if(typeof myObj.tem!='undefined'){ if(myObj.tem>-55){ pg+=Number(myObj.tem).toFixed(1)+'°C'; } else { pg+='&nbsp;'; } } else { pg+='&nbsp;'; }
+				pg+='</div>';
+			}
+			if(cb_mqtt_ID.checked) pg+='<div style="font-size:14px;">'+myObj.MQTT_ID+'</div>';
+			if(cb_broker.checked) pg+='<div style="font-size:9px;color:gray;">'+myObj.MQTT_BROKER+'</div>';
+			////
+			if(data_index<0){
+				data[data.length]=sa; localStorage.setItem(localStorage_id+'_data',data);
+				pg+='</button></a> ';
+				div01.innerHTML+=pg;
+			}else{
+				//data[ia]=sa;
+				pg+='</button>';
+				link=myObj.Versao; link=link.substring(0,link.indexOf("_"));
+				if(link=="R4x2") link="R4x2o";
+				else if(link=="R4x2o") link="R4x2o";
+				else if(link=="R4x4ir") link="R4x2o";
+				else if(link=="R4x4ir5") link="R4x2o";
+				else if(link=="R4x4o") link="R4x2o";
+				else if(link=="TV4x2") link="RM1";
+				//else if(link=="Eliptico") link="Eliptico";
+				else if(link=="RM1") link="RM1";
+				else if(link=="RM6") link="RM6";
+				else if(link=="RM8") link="RM8";
+				else if(link=="TFT4x4") link="R4x2o";
+				else if(link=="ArCond2") link="RM1";
+				else if(link=="WifiModem") link="RM1";
+				else if(link=="RM1t10o") link="RM1";
+				else if(link=="CxAgua4") link="CxAgua4";
+				else if(link=="T10r") link="RM1";
+				else if(link=="RM4x2") link="RM1";
+				else link="Status";
+				link+=".htm?broker="+myObj.MQTT_BROKER+"&port="+mqtt_port[broker-1]+"&subID="+myObj.MQTT_ID;
+				if(cb_localIP.checked){ link='http://'+myObj.localIP; }
+				eval(myObj.MQTT_ID.replace('/','_')).href=link;
+				eval(myObj.MQTT_ID.replace('/','_')).innerHTML=pg;
+			}
+		}
+	}
+}
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+<script> //MQTT
+
+var mqtt_clientID = "clientID_" + parseInt(Math.random() * 10000);
+var mqtt1_client, mqtt2_client, mqtt3_client, mqtt4_client;
+var mqtt_connected=[false,false,false,false];
+
+function mqtt_init(){
+	if(mqtt_broker[0].length>0){
+		mqtt1_client=new Paho.MQTT.Client(mqtt_broker[0], mqtt_port[0], "/mqtt", mqtt_clientID);
+		mqtt1_client.onConnectionLost = mqtt1_onConnectionLost;
+		mqtt1_client.onMessageArrived = mqtt1_onMessageArrived;
+		setTimeout(mqtt1_connect,10);
+	}
+	if(mqtt_broker[1].length>0){
+		mqtt2_client=new Paho.MQTT.Client(mqtt_broker[1], mqtt_port[1], "/mqtt", mqtt_clientID);
+		mqtt2_client.onConnectionLost=mqtt2_onConnectionLost;
+		mqtt2_client.onMessageArrived=mqtt2_onMessageArrived;
+		setTimeout(mqtt2_connect,20);
+	}
+	if(mqtt_broker[2].length>0){
+		mqtt3_client=new Paho.MQTT.Client(mqtt_broker[2], mqtt_port[2], "/mqtt", mqtt_clientID);
+		mqtt3_client.onConnectionLost=mqtt3_onConnectionLost;
+		mqtt3_client.onMessageArrived=mqtt3_onMessageArrived;
+		setTimeout(mqtt3_connect,30);
+	}
+	if(mqtt_broker[3].length>0){
+		mqtt4_client=new Paho.MQTT.Client(mqtt_broker[3], mqtt_port[3], "/mqtt", mqtt_clientID );
+		mqtt4_client.onConnectionLost=mqtt4_onConnectionLost;
+		mqtt4_client.onMessageArrived=mqtt4_onMessageArrived;
+		setTimeout(mqtt4_connect,40);
+	}
+}
+
+//function mqtt1_connect(){ mqtt1_client.connect({onSuccess:mqtt1_onConnect, onFailure: mqtt1_onFailure}); mqtt1_status.innerHTML="MQTT1 ..."; }
+//function mqtt2_connect(){ mqtt2_client.connect({onSuccess:mqtt2_onConnect, onFailure: mqtt2_onFailure}); mqtt2_status.innerHTML="MQTT2 ...";}
+//function mqtt3_connect(){ mqtt3_client.connect({onSuccess:mqtt3_onConnect, onFailure: mqtt3_onFailure}); mqtt3_status.innerHTML="MQTT2 ...";}
+function mqtt1_connect(){ if(mqtt_user[0]=="" || mqtt_pass[0]==""){ mqtt1_client.connect({onSuccess:mqtt1_onConnect, onFailure: mqtt1_onFailure});}else{ mqtt1_client.connect({onSuccess:mqtt1_onConnect, onFailure: mqtt1_onFailure, userName : mqtt_user[0], password : mqtt_pass[0] });	} mqtt3_status.innerHTML="MQTT1 ...";}
+function mqtt2_connect(){ if(mqtt_user[1]=="" || mqtt_pass[1]==""){ mqtt2_client.connect({onSuccess:mqtt2_onConnect, onFailure: mqtt2_onFailure});}else{ mqtt2_client.connect({onSuccess:mqtt2_onConnect, onFailure: mqtt2_onFailure, userName : mqtt_user[1], password : mqtt_pass[1] });	} mqtt3_status.innerHTML="MQTT2 ...";}
+function mqtt3_connect(){ if(mqtt_user[2]=="" || mqtt_pass[2]==""){ mqtt3_client.connect({onSuccess:mqtt3_onConnect, onFailure: mqtt3_onFailure});}else{ mqtt3_client.connect({onSuccess:mqtt3_onConnect, onFailure: mqtt3_onFailure, userName : mqtt_user[2], password : mqtt_pass[2] });	} mqtt3_status.innerHTML="MQTT3 ...";}
+function mqtt4_connect(){ if(mqtt_user[3]=="" || mqtt_pass[3]==""){ mqtt4_client.connect({onSuccess:mqtt4_onConnect, onFailure: mqtt4_onFailure});}else{ mqtt4_client.connect({onSuccess:mqtt4_onConnect, onFailure: mqtt4_onFailure, userName : mqtt_user[3], password : mqtt_pass[3] });	} mqtt4_status.innerHTML="MQTT4 ...";}
+
+function mqtt1_onConnect(){ mqtt1_client.subscribe(mqtt_group+"/pub"); mqtt_connected[0]=true; mqtt1_status.innerHTML=mqtt_broker[0]+" OK"; message=new Paho.MQTT.Message(req); message.destinationName=mqtt_group+"/sub"; mqtt1_client.send(message); }
+function mqtt2_onConnect(){ mqtt2_client.subscribe(mqtt_group+"/pub"); mqtt_connected[1]=true; mqtt2_status.innerHTML=mqtt_broker[1]+" OK"; message=new Paho.MQTT.Message(req); message.destinationName=mqtt_group+"/sub"; mqtt2_client.send(message); }
+function mqtt3_onConnect(){ mqtt3_client.subscribe(mqtt_group+"/pub"); mqtt_connected[2]=true; mqtt3_status.innerHTML=mqtt_broker[2]+" OK"; message=new Paho.MQTT.Message(req); message.destinationName=mqtt_group+"/sub"; mqtt3_client.send(message); }
+function mqtt4_onConnect(){ mqtt4_client.subscribe(mqtt_group+"/pub"); mqtt_connected[3]=true; mqtt4_status.innerHTML=mqtt_broker[3]+" OK";
+message=new Paho.MQTT.Message(req); message.destinationName=mqtt_group+"/sub"; mqtt4_client.send(message);
+}
+
+function mqtt1_onFailure(){	setTimeout(mqtt1_connect,5000); mqtt_connected[0]=false; mqtt1_status.innerHTML="MQTT1 failed"; }
+function mqtt2_onFailure(){	setTimeout(mqtt2_connect,5000); mqtt_connected[1]=false; mqtt2_status.innerHTML="MQTT2 failed"; }
+function mqtt3_onFailure(){	setTimeout(mqtt3_connect,5000); mqtt_connected[2]=false; mqtt3_status.innerHTML="MQTT3 failed"; }
+function mqtt4_onFailure(){	setTimeout(mqtt4_connect,5000); mqtt_connected[3]=false; mqtt4_status.innerHTML="MQTT4 failed"; }
+
+function mqtt1_onConnectionLost(responseObject) { if (responseObject.errorCode !== 0){ console.log("MQTT1 connection lost: "+responseObject.errorMessage); } setTimeout(mqtt1_connect,100); mqtt_connected[0]=false; mqtt1_status.innerHTML="MQTT1 connection lost"; }
+function mqtt2_onConnectionLost(responseObject) { if (responseObject.errorCode !== 0){ console.log("MQTT2 connection lost: "+responseObject.errorMessage); }setTimeout(mqtt2_connect,100); mqtt_connected[1]=false; mqtt2_status.innerHTML="MQTT2 connection lost"; }
+function mqtt3_onConnectionLost(responseObject) { if (responseObject.errorCode !== 0){ console.log("MQTT3 connection lost: "+responseObject.errorMessage); }setTimeout(mqtt3_connect,100); mqtt_connected[2]=false; mqtt3_status.innerHTML="MQTT3 connection lost"; }
+function mqtt4_onConnectionLost(responseObject) { if (responseObject.errorCode !== 0){ console.log("MQTT4 connection lost: "+responseObject.errorMessage); }setTimeout(mqtt4_connect,100); mqtt_connected[3]=false; mqtt4_status.innerHTML="MQTT4 connection lost"; }
+
+function mqtt1_onMessageArrived(message){ name=message.destinationName; text=message.payloadString;	onMessageArrived(1,name,text); }
+function mqtt2_onMessageArrived(message){ name=message.destinationName; text=message.payloadString;	onMessageArrived(2,name,text); }
+function mqtt3_onMessageArrived(message){ name=message.destinationName; text=message.payloadString;	onMessageArrived(3,name,text); }
+function mqtt4_onMessageArrived(message){ name=message.destinationName; text=message.payloadString;	onMessageArrived(4,name,text); }
+
+</script>
+
+</body>
+</html>

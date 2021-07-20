@@ -1,0 +1,20 @@
+Fitter Status : Successful - Tue Jul 13 15:42:13 2021
+Quartus Prime Version : 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+Revision Name : fpgaminer
+Top-level Entity Name : fpgaminer_top
+Family : Cyclone V
+Device : 5CEBA4F23C7
+Timing Models : Final
+Logic utilization (in ALMs) : 6,044 / 18,480 ( 33 % )
+Total registers : 12500
+Total pins : 11 / 224 ( 5 % )
+Total virtual pins : 0
+Total block memory bits : 8,512 / 3,153,920 ( < 1 % )
+Total RAM Blocks : 41 / 308 ( 13 % )
+Total DSP Blocks : 0 / 66 ( 0 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 1 / 4 ( 25 % )
+Total DLLs : 0 / 4 ( 0 % )

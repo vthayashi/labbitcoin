@@ -1,0 +1,7 @@
+PowerPlay Early Power Estimator File Generator Status : Successful - Tue Jul 13 18:21:28 2021
+Quartus Prime Version : 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+Revision Name : fpgaminer
+Top-level Entity Name : fpgaminer_top
+Family : Cyclone V
+Device : 5CEBA4F23C7
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

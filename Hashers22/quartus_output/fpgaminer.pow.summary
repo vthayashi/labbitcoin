@@ -1,0 +1,12 @@
+PowerPlay Power Analyzer Status : Successful - Tue Jul 13 18:20:32 2021
+Quartus Prime Version : 16.1.0 Build 196 10/24/2016 SJ Lite Edition
+Revision Name : fpgaminer
+Top-level Entity Name : fpgaminer_top
+Family : Cyclone V
+Device : 5CEBA4F23C7
+Power Models : Final
+Total Thermal Power Dissipation : 437.65 mW
+Core Dynamic Thermal Power Dissipation : 224.84 mW
+Core Static Thermal Power Dissipation : 201.56 mW
+I/O Thermal Power Dissipation : 11.25 mW
+Power Estimation Confidence : Low: user provided insufficient toggle rate data
