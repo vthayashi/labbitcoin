@@ -16,12 +16,12 @@ LabBitcoin for energy consumption FPGA experiment with IoT remote lab
 - Module 1 relay for Arduino
 - DE0-CV Altera Cyclone V FPGA Board with USB Blaster cable
 
-## Software Codes
+### Software Codes
 - labdig.htm (available in this repo)
 - Hashers22 adapted for DE0-CV Altera Cyclone V FPGA Board (available in this repo)
 - ESP8266 script (use EOS library available in https://github.com/vthayashi/esp8266-esp32-eos)
 
-## Steps
+### Step by Step
 - Build the smart meter prototype considering the assembly of the hardware materials (there are multiple tutorials available, such as https://optimalprimate.github.io/projects/2020/11/06/smart-power-meter.html)
 - Update the firmware made with EOS library using the Arduino IDE (more details on https://github.com/vthayashi/esp8266-esp32-eos/wiki/Getting-Started)
 - Compile and load the VHDL project using Quartus and the USB Blaster cable (more details on https://www2.pcs.usp.br/~labdig/material/VHDL-Quartus-Prime-16.1-v1.pdf)
