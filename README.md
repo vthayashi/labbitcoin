@@ -31,5 +31,7 @@ LabBitcoin for energy consumption FPGA experiment with IoT remote lab
 
 ## Thanks to
 Victor Takashi Hayashi
+
 Felipe Valencia de Almeida
+
 Fabio Hirotsugu Hayashi
